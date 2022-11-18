@@ -1,13 +1,23 @@
 import React, { FC } from 'react';
+import { AiOutlineComment, AiOutlineLike, IoPersonOutline } from 'react-icons/all';
 import { useNavigate } from 'react-router-dom';
-import { NewsItemContainer, NewsItemDescription, NewsItemTitle } from '../../../../ui-library/newsItemComponents';
+import { FlexRow } from '../../../../ui-library/flexRow';
+import { NewsItemContainer } from '../../../../ui-library/newsItemContainer';
+import { NewsItemContent } from '../../../../ui-library/newsItemContent';
+import { NewsItemDescription } from '../../../../ui-library/newsItemDescription';
+import { NewsItemDescriptionContainer } from '../../../../ui-library/newsItemDescriptionContainer';
+import { NewsItemTitle } from '../../../../ui-library/newsItemTitle';
+import { OrderContainer } from '../../../../ui-library/orderContainer';
+import { OrderText } from '../../../../ui-library/orderText';
+import { handleDate } from '../../../../utils/dateHandler';
 import { useGetNewsByIdQuery } from '../../news.services';
 
 interface NewsItemProps {
   newsId: number;
+  order: number;
 }
 
-export const NewsItem: FC<NewsItemProps> = ({ newsId }) => {
+export const NewsItem: FC<NewsItemProps> = ({ newsId, order }) => {
   const { data } = useGetNewsByIdQuery(newsId);
 
   const navigate = useNavigate();
@@ -22,11 +32,27 @@ export const NewsItem: FC<NewsItemProps> = ({ newsId }) => {
     <>
       {data && (
         <NewsItemContainer onClick={handleNavigateToNews}>
-          <NewsItemTitle>{data.title}</NewsItemTitle>
-          <NewsItemDescription>score: {data.score}</NewsItemDescription>
-          <NewsItemDescription>author: {data.by}</NewsItemDescription>
-          <NewsItemDescription>comments count: {data.descendants}</NewsItemDescription>
-          <NewsItemDescription>{new Date(data.time * 1000).toLocaleString()}</NewsItemDescription>
+          <OrderContainer>
+            <OrderText>{order}</OrderText>
+          </OrderContainer>
+          <NewsItemContent>
+            <NewsItemTitle>{data.title}</NewsItemTitle>
+            <FlexRow>
+              <NewsItemDescriptionContainer>
+                <AiOutlineLike style={{ marginRight: '5px' }} />
+                <NewsItemDescription>{data.score}</NewsItemDescription>
+              </NewsItemDescriptionContainer>
+              <NewsItemDescriptionContainer>
+                <IoPersonOutline style={{ marginRight: '5px' }} />
+                <NewsItemDescription>{data.by}</NewsItemDescription>
+              </NewsItemDescriptionContainer>
+              <NewsItemDescriptionContainer>
+                <AiOutlineComment style={{ marginRight: '5px' }} />
+                <NewsItemDescription>{data.descendants}</NewsItemDescription>
+              </NewsItemDescriptionContainer>
+              <NewsItemDescription>{handleDate(data.time)}</NewsItemDescription>
+            </FlexRow>
+          </NewsItemContent>
         </NewsItemContainer>
       )}
     </>

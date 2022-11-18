@@ -1,0 +1,1 @@
+export { HeadComment } from './HeadComment';

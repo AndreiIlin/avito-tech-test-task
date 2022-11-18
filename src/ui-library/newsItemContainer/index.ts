@@ -1,0 +1,1 @@
+export { NewsItemContainer } from './NewsItemContainer';

@@ -1,0 +1,1 @@
+export { NewsLink } from './NewsLink';
