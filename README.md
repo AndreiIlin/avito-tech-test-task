@@ -15,6 +15,6 @@ Includes link to news and news comments
 
 Install the app dependencies
 
-### `yarn dev`
+### `yarn start`
 
 Runs the app in the development mode on https://localhost:3000
